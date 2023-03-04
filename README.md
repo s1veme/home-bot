@@ -3,7 +3,7 @@
 # Установка
 - Скопируйте проект
     ```console
-    $ git clone
+    $ git clone https://github.com/s1veme/home-bot
     ```
 - Скопируйте `.env`, либо создайте руками
     ```console
