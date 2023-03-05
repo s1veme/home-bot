@@ -23,7 +23,9 @@ def register_all_services(
 
 
 def register_all_middlewares(dp, config):
-    ...
+    from tgbot.middlewares.admin import AdminIdsMiddleware
+
+    dp.update.middleware(AdminIdsMiddleware(config.tg_bot.admin_ids))
 
 
 def register_all_filters(dp):
@@ -32,8 +34,12 @@ def register_all_filters(dp):
 
 def register_all_handlers(dp):
     from tgbot.handlers.user.router import user_router
+    from tgbot.handlers.common.handlers import common_router
+    from tgbot.handlers.admin.router import admin_router
 
+    dp.include_router(admin_router)
     dp.include_router(user_router)
+    dp.include_router(common_router)
 
 
 async def main():

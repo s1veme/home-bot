@@ -1,19 +1,7 @@
-import typing
-
-from aiogram.dispatcher.filters import BoundFilter
-
-from tgbot.config import Config
+from aiogram import types
+from aiogram.filters import BaseFilter
 
 
-class AdminFilter(BoundFilter):
-    key = 'is_admin'
-
-    def __init__(self, is_admin: typing.Optional[bool] = None):
-        self.is_admin = is_admin
-
-    async def check(self, obj):
-        if self.is_admin is None:
-            return False
-        config: Config = obj.bot.get('config')
-        return (obj.from_user.id in config.tg_bot.admin_ids) == self.is_admin
-
+class IsAdminFilter(BaseFilter):
+    async def __call__(self, message: types.Message, admin_ids: list[int]) -> bool:
+        return message.from_user.id in admin_ids

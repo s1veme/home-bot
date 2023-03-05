@@ -1,11 +1,7 @@
 from aiogram import Router, types
 
-from tgbot.keyboards.inline.common.keyboards import create_to_chat_keyboard
-from tgbot.keyboards.inline.user.callbacks import (
-    DistrictCallbackFactory,
-    HouseCallbackFactory,
-    ResidentialComplexCallbackFactory,
-)
+from tgbot.keyboards.inline.common.callbacks import DistrictCallbackFactory, ResidentialComplexCallbackFactory
+
 from tgbot.keyboards.inline.user.keyboards import (
     create_choice_house_keyboard,
     create_choice_residential_complex_keyboard,
@@ -38,14 +34,4 @@ async def get_house_by_residential_complex(
 
     await callback.message.edit_text('Выберите дом:', reply_markup=create_choice_house_keyboard(houses))
 
-    await callback.answer()
-
-
-@router.callback_query(HouseCallbackFactory.filter())
-async def get_link_chat_by_house(callback: types.CallbackQuery, callback_data: HouseCallbackFactory):
-    house = await house_service.get_house_by_id(callback_data.house_id)
-
-    await callback.message.edit_text(
-        'Тыкните на кнопочку, чтобы перейти в чат:', reply_markup=create_to_chat_keyboard('Чат', house.link_chat)
-    )
     await callback.answer()

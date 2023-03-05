@@ -11,4 +11,4 @@ class HouseModel(BaseModel):
     start_house = Column(Integer, nullable=False)
     end_house = Column(Integer, nullable=False)
     link_chat = Column(Text, nullable=False)
-    residential_complex_id = Column(Integer, ForeignKey('residential_complexes.id'))
+    residential_complex_id = Column(Integer, ForeignKey('residential_complexes.id', ondelete='CASCADE'))

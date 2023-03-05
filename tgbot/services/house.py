@@ -1,4 +1,6 @@
-from sqlalchemy import select
+from dataclasses import asdict
+
+from sqlalchemy import insert, select
 from sqlalchemy.orm import sessionmaker
 
 from tgbot.database import HouseModel
@@ -25,6 +27,13 @@ class HouseService(SingletonService):
             model: HouseModel = await session.scalar(query)
 
         return self.model_to_domain(model)
+
+    async def create(self, house: House) -> None:
+        query = insert(HouseModel)
+
+        async with self.session_maker() as session:
+            await session.execute(query, asdict(house))
+            await session.commit()
 
     @classmethod
     def models_to_domain(cls, models: list[HouseModel], **kwargs) -> list[House]:

@@ -7,7 +7,7 @@ from tgbot.models.house import House
 @dataclass
 class ResidentialComplex:
     title: str
-    house: list[House]
     district: str
 
+    house: Optional[list[House]] = None
     id: Optional[int] = None
